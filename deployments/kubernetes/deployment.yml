@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bash-brothers
+  namespace: bash-brothers
+  labels:
+    app: bash-brothers
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bash-brothers
+  template:
+    metadata:
+      labels:
+        app: bash-brothers
+    spec:
+      containers:
+        - name: bash-brothers
+          image: ewohltman/bash-brothers:v0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            limits:
+              memory: "64Mi"
+            requests:
+              memory: "64Mi"

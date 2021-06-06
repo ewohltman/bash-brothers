@@ -1,0 +1,5 @@
+# IDE-specific metadata
+.idea
+
+# Binaries
+build/package/bash-brothers/bash-brothers
