@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: bash-brothers
-          image: ewohltman/bash-brothers:v0.0.1
+          image: ewohltman/bash-brothers:v0.0.2
           imagePullPolicy: Always
           ports:
             - name: http

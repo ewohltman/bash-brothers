@@ -1,6 +1,6 @@
 .PHONY: fmt lint test build image push deploy
 
-version=v0.0.1
+version=v0.0.2
 
 fmt:
 	gofmt -s -w . && goimports -local github.com/ewohltman/bash-brothers -w . && go mod tidy

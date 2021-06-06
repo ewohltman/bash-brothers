@@ -19,13 +19,33 @@ import (
 
 const port = "8080"
 
-//go:embed web/static/Arma_3_Preset_Bash_Brothers.html
-var arma3PresetBashBrothers []byte //nolint:gochecknoglobals // Global required for embed
+//nolint:gochecknoglobals // Globals required for embed
+var (
+	//go:embed web/static/Arma_3_Preset_Bash_Brothers.html
+	arma3PresetBashBrothers []byte
+
+	//go:embed web/static/ts3.html
+	ts3 []byte
+)
 
 func newMux(log *logrus.Entry) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.Handle("/metrics", promhttp.Handler())
+
+	mux.HandleFunc("/ts3", func(w http.ResponseWriter, r *http.Request) {
+		log.Infof("Handling request for %s", r.URL.Path)
+
+		discardCloseRequestBody(log, r.Body)
+
+		w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+		w.Header().Set("Content-Length", strconv.Itoa(len(ts3)))
+
+		_, err := w.Write(ts3)
+		if err != nil {
+			log.WithError(err).Errorf("Error writing %s response", r.URL.Path)
+		}
+	})
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		log.Infof("Handling request for %s", r.URL.Path)
